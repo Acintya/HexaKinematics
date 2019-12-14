@@ -1,10 +1,14 @@
 from Communication import environment
 from Model import HexaModel
+import Numpy as np
 
-name = "Hexa_IWF"
-#Pos_b = ()
-#    , Pos_e, Link_b, Link_e, Theta_motor
-#m_hexa = HexaModel()
+def InitHexaModel(model):
+    model.name = "Hexa_IWF"
+    model.actuatorPos = ,
+    sphereJointPos, orientationAlpha, orientationBeta, orientationGamma, baseLink, plattformLink
+
+hexa_iwf = HexaModel()
+InitHexaModel(hexa_iwf)
 env = environment.UnityEnvironment()
 print ("****** env quit *****")
 

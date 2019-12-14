@@ -1,8 +1,14 @@
 class HexaModel(object):
-    def __init__(self, name, Pos_b, Pos_e, Link_b, Link_e, Theta_motor):
+    def __init__(self, name, actuatorPos, sphereJointPos, orientationAlpha, orientationBeta, orientationGamma, baseLink,
+                 plattformLink, radiusBase, radiusPlattform, distance):
         self.name = name
-        self.Pos_b = Pos_b
-        self.Pos_e = Pos_e
-        self.Link_b = Link_b
-        self.Link_e = Link_e
-        self.Theta_motor = Theta_motor
+        self.actuatorPos = actuatorPos,
+        self.sphereJointPos = sphereJointPos,
+        self.orientationAlpha = orientationAlpha,
+        self.orientationBeta = orientationBeta,
+        self.orientationGamma = orientationGamma,
+        self.baseLink = baseLink,
+        self.plattformLink = plattformLink,
+        self.radiusBase = radiusBase,
+        self.radiusPlattform = radiusPlattform,
+        self.distance = distance
