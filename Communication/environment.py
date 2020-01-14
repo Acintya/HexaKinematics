@@ -32,7 +32,7 @@ class UnityEnvironment(object):
             self.close()
             raise socket.error("Couldn't launch new environment because worker number is still in use. ")
 
-        self._socket.settimeout(30)
+        self._socket.settimeout(300)
         try:
             try:
                 self._socket.listen(1)
