@@ -98,7 +98,7 @@ class HexaModel(object):
             m = x_c_i * x_c_i + y_c_i * y_c_i + z_c_i * z_c_i + self.baseLink * self.baseLink - self.plattformLink * self.plattformLink
             q_a_i = (np.arctan2(m, np.sqrt(k * k + l * l - m * m) - np.arctan2(k, l))) * 180 / np.pi
             self.q_a.append(q_a_i)
-#
+
         print(self.q_a)
 
 
