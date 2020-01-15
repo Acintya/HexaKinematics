@@ -99,6 +99,6 @@ class HexaModel(object):
             q_a_i = (np.arctan2(m, np.sqrt(k * k + l * l - m * m) - np.arctan2(k, l))) * 180 / np.pi
             self.q_a.append(q_a_i)
 
-        print(self.q_a)
+        return self.q_a
 
 

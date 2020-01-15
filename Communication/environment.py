@@ -6,6 +6,7 @@ import socket
 import traceback
 import struct
 import time
+from Model import HexaModel
 
 from Exceptions import exception
 
@@ -37,22 +38,32 @@ class UnityEnvironment(object):
             try:
                 self._socket.listen(1)
                 self._conn, _ = self._socket.accept()
-                self._conn.settimeout(30)
+                #self._conn.settimeout(30)
                 p = self._conn.recv(self._buffer_size).decode('utf-8')
                 p = json.loads(p)
             except socket.timeout as e:
                 raise exception.UnityTimeOutException(
                     "The Unity environment took too long to respond. Make sure does not need user interaction to ")
 
-            self._unity_api = p["apiNumber"]
-            self._academy_name = p["AcademyName"]
-            self._log_path = p["logPath"]
-            self._brain_names = p["brainNames"]
-            self._external_brain_names = p["externalBrainNames"]
-            print(self._log_path)
-            print(self._unity_api)
-            print(self._external_brain_names)
-            print(self._brain_names)
+            #self._unity_api = p["apiNumber"]
+            #self._academy_name = p["AcademyName"]
+            #self._log_path = p["logPath"]
+            #self._brain_names = p["brainNames"]
+            #self._external_brain_names = p["externalBrainNames"]
+            self._effector_position = p["EffectorPosition"]
+            self._effector_orientation = p["EffectorOrientation"]
+            positionStr = ' '.join(str(e) for e in self._effector_position)
+            print("Position: " + positionStr)
+            orientationStr = ' '.join(str(e) for e in self._effector_orientation)
+            print("Orientation: " + orientationStr)
+
+            hexa_iwf = HexaModel.HexaModel("IWF_Hexa", 360, 51.96, 51.6, [0, -120, -120, -240, -240, 0])
+            acuatorAngels = hexa_iwf.InverseKinematic(self._effector_position, self._effector_orientation)
+            message = {"acuatorAngels": acuatorAngels}
+            print("send angels")
+            self._conn.send(json.dumps(message).encode('utf-8'))
+            print(message)
+
             self._loaded = True
             self._recv_bytes()
         except exception.UnityEnvironmentException:
@@ -61,24 +72,24 @@ class UnityEnvironment(object):
             raise
 
     def _recv_bytes(self):
-        try:
-            s = self._conn.recv(self._buffer_size)
-            message_length = struct.unpack("I", bytearray(s[:4]))[0]
-            s = s[4:]
-            while len(s) != message_length:
-                s += self._conn.recv(self._buffer_size)
-            print("rcv: " + s.decode('utf-8'))
-            if s == "EXIT":
-                self.close()
-            elif s == "ACTION".encode('utf-8'):
-                self._send_action("1024M")
-                self._recv_bytes()
-            else:
-                self._recv_bytes()
-        except socket.timeout as e:
-            # raise UnityTimeOutException("The environment took too long to respond.", self._log_path)
-            print("timeout, will close socket")
+#        try:
+        s = self._conn.recv(self._buffer_size)
+        message_length = struct.unpack("I", bytearray(s[:4]))[0]
+        s = s[4:]
+        while len(s) != message_length:
+            s += self._conn.recv(self._buffer_size)
+        print("rcv: " + s.decode('utf-8'))
+        if s == "EXIT":
             self.close()
+        elif s == "ACTION".encode('utf-8'):
+            self._send_action("1024M")
+            self._recv_bytes()
+        else:
+            self._recv_bytes()
+    #except socket.timeout as e:
+            # raise UnityTimeOutException("The environment took too long to respond.", self._log_path)
+         #   print("timeout, will close socket")
+         #   self.close()
 
     def _send_action(self, memory):
         try:
