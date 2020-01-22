@@ -36,8 +36,8 @@ class HexaModel(object):
         self.orientationA.append(beta)
         self.orientationA.append(gamma)
 
-        self.baseLink = 240
-        self.plattformLink = 564
+        self.baseLink = 93.388
+        self.plattformLink = 160.60
 
     def InverseKinematic(self, pos, orientation):
         # output for the angles of six acuators

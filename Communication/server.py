@@ -19,7 +19,7 @@ while True:
     #  Send reply back to client
     #  In the real world usage, after you finish your work, send your output here
     if RequestType == "IKP":
-        hexa_iwf = HexaModel.HexaModel("IWF_Hexa", 360, 51.96, 51.6, [0, -120, -120, -240, -240, 0])
+        hexa_iwf = HexaModel.HexaModel("IWF_Hexa", 127.1, 41.2, 28, [0, -120, -120, -240, -240, 0])
         _effector_position = message["EndEffectorPosition"]
         _effector_orientation = message["EndEffectorOrientation"]
         acuatorAngels = hexa_iwf.InverseKinematic(_effector_position, _effector_orientation)
