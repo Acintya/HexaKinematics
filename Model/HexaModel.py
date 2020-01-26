@@ -1,11 +1,17 @@
 import numpy as np
 
-class HexaModel(object):
-    def __init__(self, name, R_B, R_P, d, phi):
-        self.name = name
-        self.InitHexaParams(R_B, R_P, d, phi)
+# Geometrical parameters [mm]
+R_B = 119.435
+R_P = 44.045
+d = 20.1
+phi = [0, -120, -120, -240, -240, 0]
 
-    def InitHexaParams(self, R_B, R_P, d, phi):
+class HexaModel(object):
+    def __init__(self, name):
+        self.name = name
+        self.InitHexaParams()
+
+    def InitHexaParams(self):
         if len(phi) != 6:
             return
 
@@ -36,8 +42,8 @@ class HexaModel(object):
         self.orientationA.append(beta)
         self.orientationA.append(gamma)
 
-        self.baseLink = 93.388
-        self.plattformLink = 160.60
+        self.baseLink = 106
+        self.plattformLink = 190
 
     def InverseKinematic(self, pos, orientation):
         # output for the angles of six acuators
